@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config-njtest" doc:name="HTTP Listener config" doc:id="d896a274-cf92-4cef-9c4d-c98d51d3a146" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="nj-test-api-001Flow" doc:id="f69f2448-9446-4025-8508-d87a81b957c7" >
+		<http:listener doc:name="Listener" doc:id="d7885971-5578-4e88-89ae-78ab5eab36bc" config-ref="HTTP_Listener_config-njtest" path="/njtest"/>
+		<flow-ref doc:name="get-status-sub-flow" doc:id="c69b6e0e-0ab7-4e13-862e-55cb28dd1826" name="get-status-sub-flow"/>
+	</flow>
+	<sub-flow name="get-status-sub-flow" doc:id="1a44f592-9cef-4b78-b688-d780b5ec864c" >
+		<logger level="INFO" doc:name="Logger" doc:id="4018cbcc-dd70-4949-aa34-26bb9fd9420a" />
+		<ee:transform doc:name="Transform Message" doc:id="57db19b2-62a7-4895-b756-8314a6d278c1">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"status": 200,
+	"details": "Get nj-test api success!!"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>
