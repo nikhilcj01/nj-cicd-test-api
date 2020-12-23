@@ -1,7 +1,6 @@
 #!groovy
 
-pipeline {
-	agent any 
+
 	
 	stages {
 	
@@ -11,7 +10,7 @@ pipeline {
 			}
 		}
 	}
-}
+
 /* functions here 
 for each environment pipeline 
 */
